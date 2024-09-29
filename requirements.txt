@@ -1,0 +1,9 @@
+jupyter
+keras
+tensorflow          
+pandas
+numpy
+matplotlib
+scipy
+tqdm
+requests
