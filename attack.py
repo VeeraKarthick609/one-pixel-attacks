@@ -7,7 +7,7 @@ import pickle
 import os
 from PIL import Image
 
-from networks.resnet import ResNet  # Only ResNet is needed
+from networks.custom_net import SimpleCNN
 
 # Helper functions
 from differential_evolution import differential_evolution
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     # Load data and model
     _, test = cifar10.load_data()
     class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
-    model = ResNet(load_weights=True)  # Only using ResNet
+    model = SimpleCNN(load_weights=True)  # Only using ResNet
 
     attacker = PixelAttacker(model, test, class_names)
 

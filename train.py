@@ -3,11 +3,11 @@
 import os
 import argparse
 
-from networks.resnet import ResNet
+from networks.resnet_masked import ResNetMasked
 
 
 if __name__ == '__main__':
 
-    model = ResNet(load_weights=False, epochs=1)
+    model = ResNetMasked(load_weights=False, epochs=100, batch_size=64)
 
     model.train()
