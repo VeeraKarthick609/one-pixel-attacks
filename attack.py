@@ -12,6 +12,7 @@ from networks.custom_net import SimpleCNN
 # Helper functions
 from differential_evolution import differential_evolution
 import helper
+from networks.resnet_masked import ResNetMasked
 
 class PixelAttacker:
     def __init__(self, model, data, class_names, dimensions=(32, 32)):
@@ -101,7 +102,7 @@ if __name__ == '__main__':
     # Load data and model
     _, test = cifar10.load_data()
     class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
-    model = SimpleCNN(load_weights=True)  # Only using ResNet
+    model = ResNetMasked(load_weights=True)  # Only using ResNet
 
     attacker = PixelAttacker(model, test, class_names)
 
