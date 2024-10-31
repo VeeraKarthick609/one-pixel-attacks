@@ -7,12 +7,12 @@ import pickle
 import os
 from PIL import Image
 
-from networks.custom_net import SimpleCNN
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 # Helper functions
 from differential_evolution import differential_evolution
 import helper
-from networks.resnet_masked import ResNetMasked
+from networks.resnet import ResNet
 
 class PixelAttacker:
     def __init__(self, model, data, class_names, dimensions=(32, 32)):
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # Load data and model
     _, test = cifar10.load_data()
     class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
-    model = ResNetMasked(load_weights=True)  # Only using ResNet
+    model = ResNet(load_weights=True)  # Only using ResNet
 
     attacker = PixelAttacker(model, test, class_names)
 

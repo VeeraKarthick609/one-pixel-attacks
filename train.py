@@ -5,6 +5,9 @@ import argparse
 
 from networks.resnet import ResNet
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+
 
 if __name__ == '__main__':
 

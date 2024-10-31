@@ -3,7 +3,7 @@ import numpy as np
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import BatchNormalization, Conv2D, Dense, Input, add, Activation, GlobalAveragePooling2D
-from tensorflow.keras.callbacks import LearningRateScheduler, TensorBoard, ModelCheckpoint
+from tensorflow.keras.callbacks import LearningRateScheduler, TensorBoard
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras import optimizers, regularizers
 
@@ -23,11 +23,8 @@ class ResNet:
         self.log_filepath = r'networks/models/resnet/'
 
         if load_weights:
-            try:
                 self._model = load_model(self.model_filename)
-                print('Successfully loaded', self.name)
-            except (ImportError, ValueError, OSError):
-                print('Failed to load', self.name)
+                
     
     def count_params(self):
         return self._model.count_params()
@@ -120,11 +117,6 @@ class ResNet:
         sgd = optimizers.SGD(learning_rate=.1, momentum=0.9, nesterov=True)
         resnet.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
-        # Set callbacks
-        tb_cb = TensorBoard(log_dir=self.log_filepath, histogram_freq=0)
-        change_lr = LearningRateScheduler(self.scheduler)
-        checkpoint = ModelCheckpoint(self.model_filename, 
-                                     monitor='val_loss', verbose=0, save_best_only=True, mode='auto')
 
         # Set data augmentation
         print('Using real-time data augmentation.')
