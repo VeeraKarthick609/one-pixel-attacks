@@ -6,7 +6,6 @@ from tensorflow.keras.layers import BatchNormalization, Conv2D, Dense, Input, ad
 from tensorflow.keras.callbacks import LearningRateScheduler, TensorBoard, ModelCheckpoint
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras import optimizers, regularizers
-from networks.train_plot import PlotLearning  # assuming this is your custom callback
 
 class ResNet:
     def __init__(self, epochs=200, batch_size=128, load_weights=True):
@@ -126,8 +125,6 @@ class ResNet:
         change_lr = LearningRateScheduler(self.scheduler)
         checkpoint = ModelCheckpoint(self.model_filename, 
                                      monitor='val_loss', verbose=0, save_best_only=True, mode='auto')
-        plot_callback = PlotLearning()  # Custom callback
-        cbks = [change_lr, tb_cb, checkpoint, plot_callback]
 
         # Set data augmentation
         print('Using real-time data augmentation.')
@@ -141,7 +138,6 @@ class ResNet:
         resnet.fit(datagen.flow(x_train, y_train, batch_size=self.batch_size),
                    steps_per_epoch=self.iterations,
                    epochs=self.epochs,
-                   callbacks=cbks,
                    validation_data=(x_test, y_test))
         resnet.save(self.model_filename)
 
