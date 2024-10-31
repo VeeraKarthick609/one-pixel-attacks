@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from keras.datasets import cifar10
+from keras.datasets import cifar10 # type: ignore
 import pickle
 import os
 from PIL import Image
