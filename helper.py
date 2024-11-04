@@ -10,29 +10,29 @@ from tqdm import tqdm
 
 
 def perturb_image(xs, img):
-    # If this function is passed just one perturbation vector,
-    # pack it in a list to keep the computation the same
+    # If this function is passed just one perturbation vector, pack it in a list
     if xs.ndim < 2:
         xs = np.array([xs])
 
-    # Copy the image n == len(xs) times so that we can 
-    # create n new perturbed images
+    # Copy the image n == len(xs) times to create n new perturbed images
     tile = [len(xs)] + [1] * (xs.ndim + 1)
     imgs = np.tile(img, tile)
 
-    # Make sure to floor the members of xs as int types
+    # Ensure xs values are integers within valid ranges
     xs = xs.astype(int)
 
     for x, img in zip(xs, imgs):
-        # Split x into an array of 5-tuples (perturbation pixels)
-        # i.e., [[x,y,r,g,b], ...]
+        # Split x into an array of 5-tuples (perturbation pixels) i.e., [[x, y, r, g, b], ...]
         pixels = np.split(x, len(x) // 5)
         for pixel in pixels:
-            # At each pixel's x,y position, assign its rgb value
-            x_pos, y_pos, *rgb = pixel
+            # Clip x, y, r, g, b to stay within image and color bounds
+            x_pos = np.clip(pixel[0], 0, img.shape[0] - 1)
+            y_pos = np.clip(pixel[1], 0, img.shape[1] - 1)
+            rgb = np.clip(pixel[2:], 0, 255)
             img[x_pos, y_pos] = rgb
 
     return imgs
+
 
 
 def plot_image(image, label_true=None, class_names=None, label_pred=None):
